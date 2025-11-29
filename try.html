@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Portfolio Graphique</title>
+    <style>
+        /* Styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* En-tête */
+        header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 1rem 0;
+        }
+        
+        nav li {
+            margin: 0 1.5rem;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #6a11cb;
+        }
+        
+        /* Contenu principal */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        
+        /* Section À propos */
+        .about {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .about h2 {
+            color: #6a11cb;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 0.5rem;
+        }
+        
+        /* Galerie */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .gallery-item {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .gallery-item .description {
+            padding: 1rem;
+        }
+        
+        .gallery-item h3 {
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+        
+        .gallery-item p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Pied de page */
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 0.5rem 0;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- En-tête -->
+    <header>
+        <h1>Mon Portfolio Graphique</h1>
+        <p>Créations réalisées avec Canva et Photoshop</p>
+    </header>
+    
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#portfolio">Portfolio</a></li>
+            <li><a href="#apropos">À propos</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Contenu principal -->
+    <div class="container">
+        <!-- Section À propos -->
+        <section id="apropos" class="about">
+            <h2>À propos de moi</h2>
+            <p>Je suis passionné(e) par le design graphique et je crée des visuels attrayants et percutants en utilisant Canva et Photoshop. Ce portfolio présente une sélection de mes créations récentes.</p>
+            <p>Chaque projet est unique et adapté aux besoins spécifiques de mes clients, qu'il s'agisse de designs pour les réseaux sociaux, d'infographies, de bannières ou d'illustrations.</p>
+        </section>
+        
+        <!-- Section Portfolio -->
+        <section id="portfolio">
+            <h2 style="color: #6a11cb; margin-bottom: 1rem;">Mes Créations</h2>
+            
+            <!-- Galerie d'images -->
+            <div class="gallery">
+                <!-- Exemple d'élément de galerie -->
+                <div class="gallery-item">
+                    <img src="fl1.jpeg" alt="Design graphique 1">
+                    <div class="description">
+                        <h3>Design pour réseaux sociaux</h3>
+                        <p>Créé avec Canva - Post Instagram</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="flayer.jpeg" alt="Design graphique 2">
+                    <div class="description">
+                        <h3>Infographie d'entreprise</h3>
+                        <p>Créé avec Photoshop - flayer</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="1.png" alt="Design graphique 3">
+                    <div class="description">
+                        <h3>Bannière promotionnelle</h3>
+                        <p>Créé avec Canva - Campagne marketing</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="douaa.jpeg" alt="Design graphique 4">
+                    <div class="description">
+                        <h3>Logo d'entreprise</h3>
+                        <p>Créé avec Photoshop - Identité visuelle</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="instagram post.png" alt="Design graphique 5">
+                    <div class="description">
+                        <h3>Flyer événementiel</h3>
+                        <p>Créé avec Canva - Promotion d'événement</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="carte_visit.png" alt="Design graphique 6">
+                    <div class="description">
+                        <h3>Carte_visite</h3>
+                        <p>Créé avec Photoshop - Édition</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Pied de page -->
+    <footer id="contact">
+        <h3>Contactez-moi</h3>
+        <p>Vous avez un projet en tête? N'hésitez pas à me contacter!</p>
+        <div class="contact-info">
+            <p>Email: douaa092000@gmail.com</p>
+            <phone:>+2130798102345</phone:>
+            
+        </div>
+        <p style="margin-top: 2rem;">&copy; 2023DKwith love. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>

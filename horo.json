@@ -1,0 +1,50 @@
+{
+  "aries": {
+    "today": "Aujourd'hui, vous serez plein d'énergie et de motivation.",
+    "tomorrow": "Demain sera une journée idéale pour prendre des initiatives."
+  },
+  "taurus": {
+    "today": "Aujourd'hui, soyez patient et écoutez votre intuition.",
+    "tomorrow": "Une bonne journée pour la détente et la réflexion."
+  },
+  "gemini": {
+    "today": "Votre curiosité sera à son comble aujourd'hui.",
+    "tomorrow": "Une journée propice aux échanges et à la communication."
+  },
+  "cancer": {
+    "today": "Prenez soin de vous et de vos proches.",
+    "tomorrow": "Une journée pour vous reposer et vous recentrer."
+  },
+  "leo": {
+    "today": "Votre charisme sera à son apogée aujourd'hui.",
+    "tomorrow": "Profitez de cette énergie pour réaliser vos projets."
+  },
+  "virgo": {
+    "today": "Organisez-vous pour une journée productive.",
+    "tomorrow": "Une journée pour faire le point et planifier."
+  },
+  "libra": {
+    "today": "Cherchez l'harmonie dans vos relations.",
+    "tomorrow": "Une journée pour faire des compromis et avancer."
+  },
+  "scorpio": {
+    "today": "Votre intensité sera remarquable aujourd'hui.",
+    "tomorrow": "Une journée pour explorer de nouvelles idées."
+  },
+  "sagittarius": {
+    "today": "L'aventure vous appelle, soyez prêt à partir.",
+    "tomorrow": "Une journée idéale pour apprendre quelque chose de nouveau."
+  },
+  "capricorn": {
+    "today": "Concentrez-vous sur vos objectifs à long terme.",
+    "tomorrow": "Une journée pour faire avancer vos projets."
+  },
+  "aquarius": {
+    "today": "Votre créativité sera votre atout aujourd'hui.",
+    "tomorrow": "Une journée pour penser différemment."
+  },
+  "pisces": {
+    "today": "Laissez parler votre intuition et votre sensibilité.",
+    "tomorrow": "Une journée pour vous connecter avec votre monde intérieur."
+  }
+}

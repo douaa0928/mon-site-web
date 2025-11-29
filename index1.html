@@ -1,0 +1,607 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Pixel Orange Interactif</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #967cb1, #0e1565);
+            font-family: 'Arial', sans-serif;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #030e2de6;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-shadow: 2px 2px 0 #fff;
+        }
+        
+        .cat-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto 30px;
+        }
+        
+        .pixel-cat {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+        
+        /* Tête du chat */
+        .cat-head {
+            position: absolute;
+            width: 140px;
+            height: 120px;
+            background: #ffa500;
+            border-radius: 50% 50% 45% 45%;
+            top: 40px;
+            left: 30px;
+            box-shadow: 
+                inset -5px -5px 0 #e69500,
+                inset 5px 5px 0 #ffb733;
+        }
+        
+        /* Oreilles */
+        .cat-ear {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 40px solid #e69500;
+            z-index: 2;
+        }
+        
+        .ear-left {
+            top: 20px;
+            left: 40px;
+            transform: rotate(-20deg);
+        }
+        
+        .ear-right {
+            top: 20px;
+            right: 40px;
+            transform: rotate(20deg);
+        }
+        
+        .inner-ear {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 25px solid #141313;
+            top: 8px;
+            left: -12px;
+        }
+        
+        /* Yeux */
+        .cat-eye {
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            background: #fff;
+            border-radius: 50%;
+            top: 70px;
+            overflow: hidden;
+            box-shadow: 0 0 0 3px #333;
+        }
+        
+        .eye-left {
+            left: 45px;
+        }
+        
+        .eye-right {
+            right: 45px;
+        }
+        
+        .pupil {
+            position: absolute;
+            width: 15px;
+            height: 20px;
+            background: #333;
+            border-radius: 50%;
+            top: 10px;
+            left: 7px;
+            animation: blink 3s infinite;
+        }
+        
+        /* Nez */
+        .cat-nose {
+            position: absolute;
+            width: 20px;
+            height: 12px;
+            background: #0f0e0e;
+            border-radius: 40% 40% 50% 50%;
+            top: 110px;
+            left: 90px;
+        }
+        
+        /* Bouche */
+        .cat-mouth {
+            position: absolute;
+            width: 30px;
+            height: 15px;
+            border-bottom: 3px solid #ff6b47;
+            border-radius: 0 0 50% 50%;
+            top: 120px;
+            left: 85px;
+        }
+        
+        /* Moustaches */
+        .cat-whisker {
+            position: absolute;
+            height: 2px;
+            background: #333;
+            width: 25px;
+        }
+        
+        .whisker-left-top {
+            top: 95px;
+            left: 25px;
+            transform: rotate(-15deg);
+        }
+        
+        .whisker-left-bottom {
+            top: 105px;
+            left: 25px;
+            transform: rotate(15deg);
+        }
+        
+        .whisker-right-top {
+            top: 95px;
+            right: 25px;
+            transform: rotate(15deg);
+        }
+        
+        .whisker-right-bottom {
+            top: 105px;
+            right: 25px;
+            transform: rotate(-15deg);
+        }
+        
+        /* Joues */
+        .cat-cheek {
+            position: absolute;
+            width: 25px;
+            height: 15px;
+            background: #ffb347;
+            border-radius: 50%;
+            top: 100px;
+            opacity: 0.6;
+        }
+        
+        .cheek-left {
+            left: 30px;
+        }
+        
+        .cheek-right {
+            right: 30px;
+        }
+        
+        /* Corps */
+        .cat-body {
+            position: absolute;
+            width: 160px;
+            height: 120px;
+            background: #ffa500;
+            border-radius: 50% 50% 40% 40%;
+            top: 140px;
+            left: 20px;
+            box-shadow: 
+                inset -5px -5px 0 #e69500,
+                inset 5px 5px 0 #ffb733;
+        }
+        
+        /* Pattes */
+        .cat-paw {
+            position: absolute;
+            width: 40px;
+            height: 30px;
+            background: #ffa500;
+            border-radius: 50%;
+            bottom: 0;
+            box-shadow: 
+                inset -3px -3px 0 #e69500,
+                inset 3px 3px 0 #ffb733;
+        }
+        
+        .paw-left {
+            left: 40px;
+        }
+        
+        .paw-right {
+            right: 40px;
+        }
+        
+        /* Queue */
+        .cat-tail {
+            position: absolute;
+            width: 80px;
+            height: 20px;
+            background: #ffa500;
+            border-radius: 10px;
+            top: 180px;
+            right: -40px;
+            transform-origin: left center;
+            animation: tailWag 2s ease-in-out infinite;
+            box-shadow: 
+                inset -3px -3px 0 #e69500,
+                inset 3px 3px 0 #ffb733;
+        }
+        
+        /* Cœurs */
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0;
+            z-index: 10;
+        }
+        
+        .heart1 {
+            animation: floatUp 4s ease-in-out infinite;
+            top: 100px;
+            left: 60px;
+        }
+        
+        .heart2 {
+            animation: floatUp 5s ease-in-out infinite 1s;
+            top: 120px;
+            left: 90px;
+        }
+        
+        .heart3 {
+            animation: floatUp 4.5s ease-in-out infinite 0.5s;
+            top: 80px;
+            left: 120px;
+        }
+        
+        .heart4 {
+            animation: floatUp 5.5s ease-in-out infinite 1.5s;
+            top: 140px;
+            left: 70px;
+        }
+        
+        .heart5 {
+            animation: floatUp 4.2s ease-in-out infinite 0.8s;
+            top: 110px;
+            left: 140px;
+        }
+        
+        /* Animations */
+        @keyframes tailWag {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(15deg); }
+            75% { transform: rotate(-15deg); }
+        }
+        
+        @keyframes floatUp {
+            0% { 
+                transform: translateY(0) scale(0.8); 
+                opacity: 0; 
+            }
+            20% { 
+                opacity: 1; 
+            }
+            80% { 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateY(-100px) scale(1.2); 
+                opacity: 0; 
+            }
+        }
+        
+        @keyframes blink {
+            0%, 90%, 100% { 
+                height: 20px; 
+                top: 10px;
+            }
+            95% { 
+                height: 2px; 
+                top: 28px;
+            }
+        }
+        
+        .chat-area {
+            background-color: #fff5e6;
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 20px;
+            border: 2px solid #080807;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .message {
+            font-size: 1.1rem;
+            color: #ae2988;
+            margin-bottom: 15px;
+        }
+        
+        .input-area {
+            display: flex;
+            margin-top: 10px;
+        }
+        
+        input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 2px solid #ffa500;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        button {
+            background-color: #ff8c00;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            margin-left: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #e67e00;
+        }
+        
+        .kitten-name {
+            background-color: #ffd8b1;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-weight: bold;
+            color: #e67e00;
+        }
+        
+        .encouragement {
+            background-color: #e6f7ff;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            color: #1890ff;
+            font-style: italic;
+        }
+        
+        .belief-message {
+            background-color: #e8f5e9;
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            color: #2e7d32;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>le Chat Orange</h1>
+        
+        <div class="cat-container">
+            <div class="pixel-cat">
+                <!-- Oreilles -->
+                <div class="cat-ear ear-left">
+                    <div class="inner-ear"></div>
+                </div>
+                <div class="cat-ear ear-right">
+                    <div class="inner-ear"></div>
+                </div>
+                
+                <!-- Tête -->
+                <div class="cat-head"></div>
+                
+                <!-- Moustaches -->
+                <div class="cat-whisker whisker-left-top"></div>
+                <div class="cat-whisker whisker-left-bottom"></div>
+                <div class="cat-whisker whisker-right-top"></div>
+                <div class="cat-whisker whisker-right-bottom"></div>
+                
+                <!-- Joues -->
+                <div class="cat-cheek cheek-left"></div>
+                <div class="cat-cheek cheek-right"></div>
+                
+                <!-- Yeux -->
+                <div class="cat-eye eye-left">
+                    <div class="pupil"></div>
+                </div>
+                <div class="cat-eye eye-right">
+                    <div class="pupil"></div>
+                </div>
+                
+                <!-- Nez et bouche -->
+                <div class="cat-nose"></div>
+                <div class="cat-mouth"></div>
+                
+                <!-- Corps -->
+                <div class="cat-body"></div>
+                
+                <!-- Pattes -->
+                <div class="cat-paw paw-left"></div>
+                <div class="cat-paw paw-right"></div>
+                
+                <!-- Queue -->
+                <div class="cat-tail"></div>
+                
+                <!-- Cœurs -->
+                <div class="heart heart1">🧡</div>
+                <div class="heart heart2">💛</div>
+                <div class="heart heart3">🤎</div>
+                <div class="heart heart4">💖</div>
+            </div>
+        </div>
+        
+        <div class="chat-area">
+            <div class="message" id="chat-message">
+                Miaou ! Je suis bebou, le chat orange réconfortant ! 🧡<br>
+                Quel est ton prénom ?
+            </div>
+            
+            <div id="response-area"></div>
+            
+            <div class="input-area">
+                <input type="text" id="user-input" placeholder="Écris ton prénom ici...">
+                <button id="send-btn">Envoyer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const userInput = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
+            const chatMessage = document.getElementById('chat-message');
+            const responseArea = document.getElementById('response-area');
+            
+            // Listes pour générer des noms de chaton bizarres
+            const prefixes = ['Miaou', 'Ronron', 'Whiskers', 'Pattes', 'Peluche', 'Câlin', 'Douceur', 'Minou', 'Griffu', 'Moustache'];
+            const suffixes = ['doux', 'magique', 'étincelant', 'velu', 'charmeur', 'royal', 'sauvage', 'câlin', 'joueur', 'mystique'];
+            
+            // Phrases qui remontent le moral
+           const encouragements = [
+    "Tu es aussi incroyable qu'une licorne qui aurait trouvé le dernier pot de paillettes ! ✨",
+    "Rappelle-toi : tu es la version premium d'un être humain, avec toutes les options activées !",
+    "Tu as surmonté tant d'obstacles que même ton café du matin te salue avec respect. ☕",
+    "Même les jours où tu te sens comme un pingouin qui veut voler, souviens-toi : tu es un maître-nageur ! 🐧",
+    "Tu n'es pas seul(e) - même les plantes d'intérieur vibent en ta présence ! 🌱",
+    "Prends le temps de célébrer tes petites victoires ! Aujourd'hui, tu as cliqué ici ? Danse de la victoire ! 🕺",
+    "Tu es capable de choses extraordinaires, comme trouver le bon côté d'une boîte de fromage à tartiner ! 🧀",
+    "La vie réserve de belles surprises... comme quand tu retrouves 10€ dans une vieille veste, mais en mieux ! 💰",
+    "Ton sourire est aussi contagieux que les bâillements, mais en beaucoup plus agréable ! 😄",
+    "Le monde a besoin de ta lumière spéciale, même si des fois elle clignote 'batterie faible'. On a tous une prise pour te recharger ! 🔋",
+    "Si le bonheur était un sport, tu décrocherais la médaille d'or et un high-five d'un panda ! 🐼",
+    "Chaque jour est une nouvelle chance de briller, de pailletter les cœurs et de semer des étoiles ! 🌟"
+];
+           // Fonction pour un encouragement aléatoire
+const donneMoiDuCourage = () => {
+    const index = Math.floor(Math.random() * encouragements.length);
+    return encouragements[index];
+};
+
+// Fonction spéciale "coup de boost"
+const boostDUrgence = () => {
+    const boosts = [
+        "T'es un super-héros en pause café ! ☕",
+        "Même les chats auraient envie de faire des high-fives avec toi ! 🐱",
+        "Ta capacité à trouver le WiFi invisible est impressionnante ! 📶"
+    ];
+    return boosts[Math.floor(Math.random() * boosts.length)];
+};
+
+// Utilisation :
+console.log(donneMoiDuCourage());
+console.log("🌟 BOOST D'URGENCE : " + boostDUrgence());
+            // Messages de "je crois en toi"
+            const beliefMessages = [
+                "Je crois en toi ! Tu as toutes les capacités pour réussir !",
+                "Tu es plus fort que tu ne le penses, et je crois en ton potentiel !",
+                "N'oublie jamais que je crois en toi, même dans les moments difficiles !",
+                "Tu as tellement de talents, et je crois que tu vas accomplir de grandes choses !",
+                "Je crois en toi et en ta capacité à surmonter tous les défis !",
+                "Tu es incroyable, et je crois en toi plus que tout !",
+                "Rappelle-toi toujours que je crois en toi, peu importe ce qui arrive !",
+                "Tu as une force intérieure remarquable, et je crois en ton succès !",
+                "Je crois en toi et en ton chemin unique vers le bonheur !",
+                "Tu es capable de réaliser tes rêves, et je crois en toi à 100% !"
+            ];
+            
+            sendBtn.addEventListener('click', processInput);
+            
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    processInput();
+                }
+            });
+            
+            function processInput() {
+                const userName = userInput.value.trim();
+                if (userName === '') return;
+                
+                // Afficher le nom de l'utilisateur
+                chatMessage.textContent = `Ravi de te rencontrer, ${userName} !`;
+                
+                // Générer un nom de chaton bizarre
+                const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+                const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+                const kittenName = `${randomPrefix}-${randomSuffix}`;
+                
+                // Sélectionner une phrase réconfortante aléatoire
+                const encouragement = encouragements[Math.floor(Math.random() * encouragements.length)];
+                
+                // Sélectionner un message de croyance aléatoire
+                const beliefMessage = beliefMessages[Math.floor(Math.random() * beliefMessages.length)];
+                
+                // Afficher tous les résultats en même temps
+                responseArea.innerHTML = `
+                    <div class="kitten-name">
+                        Ton nom de chaton spécial est : <strong>${kittenName}</strong> 🐾
+                    </div>
+                    <div class="encouragement">
+                        ${encouragement} 🧡
+                    </div>
+                    <div class="belief-message">
+                        ${beliefMessage} 💫
+                    </div>
+                `;
+                
+                // Réinitialiser le champ de saisie
+                userInput.value = '';
+                
+                // Animation supplémentaire
+                animateHearts();
+            }
+            
+            function animateHearts() {
+                // Ajouter des cœurs supplémentaires pour l'animation
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        const heart = document.createElement('div');
+                        heart.className = 'heart';
+                        heart.innerHTML = '🧡';
+                        heart.style.left = `${Math.random() * 100}%`;
+                        heart.style.top = `${Math.random() * 100}%`;
+                        heart.style.animation = `floatUp ${3 + Math.random() * 2}s ease-in-out`;
+                        document.querySelector('.cat-container').appendChild(heart);
+                        
+                        // Supprimer le cœur après l'animation
+                        setTimeout(() => {
+                            if (heart.parentNode) {
+                                heart.parentNode.removeChild(heart);
+                            }
+                        }, 5000);
+                    }, i * 300);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

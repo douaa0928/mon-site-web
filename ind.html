@@ -1,0 +1,549 @@
+<!DOCTYPE html> 
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Galerie Photo Inspirante - Oran</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet"/>
+
+<!-- GSAP -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.11.4/dist/gsap.min.js"></script>
+
+<style>
+  * { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    padding-top: 60px;
+    min-height: 100vh;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: clamp(2.5em, 5vw, 3.2em);
+    font-weight: 700;
+    color: #ffe600;
+    margin-bottom: 40px;
+    padding: 0 20px;
+  }
+
+  /* Conteneur galerie amélioré */
+  .gallery-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* Grille améliorée avec masonry effect */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    align-items: start;
+  }
+
+  /* Photo card améliorée */
+  .photo-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 18px;
+    backdrop-filter: blur(14px);
+    padding: 15px;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    break-inside: avoid;
+    cursor: pointer;
+  }
+
+  .photo-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  /* Container image avec ratio fixe */
+  .image-container {
+    width: 100%;
+    height: 0;
+    padding-bottom: 75%; /* Ratio 4:3 */
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .photo-card:hover .image-container img {
+    transform: scale(1.05);
+  }
+
+  .caption {
+    margin-top: 15px;
+    text-align: center;
+    font-style: italic;
+    font-size: 1.1em;
+    color: #ffd700;
+    line-height: 1.4;
+    padding: 0 5px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Lightbox Styles */
+  .lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+  }
+
+  .lightbox.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .lightbox-content {
+    max-width: 90%;
+    max-height: 90%;
+    display: flex;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .lightbox-img-container {
+    position: relative;
+    max-width: 60%;
+    flex: 1;
+  }
+
+  .lightbox-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .lightbox-info {
+    padding: 25px;
+    background: rgba(15, 32, 39, 0.9);
+    max-width: 40%;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .lightbox-title {
+    font-size: 1.8em;
+    color: #ffe600;
+    margin-bottom: 15px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .lightbox-description-container {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 15px;
+    padding-right: 10px;
+  }
+
+  /* Style de la scrollbar */
+  .lightbox-description-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .lightbox-description-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+  }
+
+  .lightbox-description-container::-webkit-scrollbar-thumb {
+    background: #ffe600;
+    border-radius: 3px;
+  }
+
+  .lightbox-description-container::-webkit-scrollbar-thumb:hover {
+    background: #ffcc00;
+  }
+
+  .lightbox-description {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #fff;
+  }
+
+  .lightbox-technical {
+    font-size: 0.9em;
+    color: #ccc;
+    font-style: italic;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 15px;
+    flex-shrink: 0;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 2em;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    z-index: 1001;
+  }
+
+  .close-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+  }
+
+  .nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    font-size: 2em;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    z-index: 1001;
+  }
+
+  .nav-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .prev-btn {
+    left: 20px;
+  }
+
+  .next-btn {
+    right: 20px;
+  }
+
+  /* Responsive amélioré */
+  @media (max-width: 968px) {
+    .lightbox-content {
+      flex-direction: column;
+      max-width: 95%;
+      max-height: 95%;
+    }
+    
+    .lightbox-img-container {
+      max-width: 100%;
+      max-height: 50%;
+    }
+    
+    .lightbox-info {
+      max-width: 100%;
+      min-width: auto;
+      max-height: 50%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    body {
+      padding-top: 40px;
+    }
+    
+    .gallery {
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    
+    .gallery-container {
+      padding: 0 15px;
+    }
+
+    .lightbox-content {
+      max-width: 98%;
+      max-height: 98%;
+    }
+
+    .lightbox-info {
+      padding: 15px;
+    }
+
+    .lightbox-title {
+      font-size: 1.5em;
+    }
+
+    .nav-btn {
+      width: 50px;
+      height: 50px;
+      font-size: 1.5em;
+    }
+
+    .close-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 1.5em;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .gallery {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+    
+    .photo-card {
+      padding: 12px;
+    }
+
+    .lightbox-img-container {
+      max-height: 40%;
+    }
+
+    .lightbox-info {
+      max-height: 60%;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<h1>Galerie Photo Inspirante</h1>
+
+<div class="gallery-container">
+  <div class="gallery" id="gallery"></div>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="close-btn" id="closeBtn">&times;</button>
+  <button class="nav-btn prev-btn" id="prevBtn">&#10094;</button>
+  <button class="nav-btn next-btn" id="nextBtn">&#10095;</button>
+  
+  <div class="lightbox-content">
+    <div class="lightbox-img-container">
+      <img class="lightbox-img" id="lightboxImg" src="" alt="">
+    </div>
+    <div class="lightbox-info">
+      <h2 class="lightbox-title" id="lightboxTitle"></h2>
+      <div class="lightbox-description-container">
+        <p class="lightbox-description" id="lightboxDescription"></p>
+      </div>
+      <div class="lightbox-technical" id="lightboxTechnical"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const images = [
+    { 
+      src: 'sky.jpeg', 
+      caption: 'from insim to cervantes',
+      description: "Une vue panoramique saisissante capturée entre le quartier d'Insim et la zone de Cervantes. Cette photo a été prise au coucher du soleil, lorsque la lumière dorée illumine la ville d'Oran. J'ai utilisé un objectif grand angle pour capturer l'immensité du ciel et son contraste avec l'architecture urbaine. La composition a été soigneusement étudiée pour guider le regard du premier plan vers l'horizon, créant ainsi une sensation de profondeur et d'immensité. Les nuages formaient ce jour-là des motifs spectaculaires qui ajoutaient une dimension dramatique à la scène. J'ai attendu près d'une heure pour capturer le moment parfait où la lumière était à son apogée, créant des ombres longues et des reflets chaleureux sur les bâtiments. Cette image représente pour moi l'essence même d'Oran : une ville entre terre et ciel, entre tradition et modernité.",
+      technical: "📸 Canon EOS R6 • 🎯 24mm • ⚡ f/8 • ⏱ 1/250s • 📶 ISO 200"
+    },
+    { 
+      src: '2p.jpg', 
+      caption: 'Santa cruz',
+      description: "La célèbre chapelle de Santa Cruz dominant la ville depuis les hauteurs. J'ai gravi les collines tôt le matin pour éviter la foule et capturer cette lumière douce qui caresse les murs blancs de la chapelle. Le contraste entre le bleu du ciel et le blanc éclatant du bâtiment crée une harmonie parfaite. L'ascension valait chaque effort quand j'ai découvert cette vue imprenable sur toute la baie d'Oran. J'ai utilisé un filtre polarisant pour renforcer les couleurs du ciel et réduire les reflets sur la végétation. La position de la chapelle, isolée sur sa colline, symbolise la spiritualité et la sérénité qui contrastent avec l'agitation de la ville en contrebas. Cette photo a nécessité plusieurs visites à différentes heures pour trouver l'éclairage idéal qui mettrait en valeur la texture des murs et la profondeur du paysage.",
+      technical: "📸 Sony A7III • 🎯 35mm • ⚡ f/5.6 • ⏱ 1/500s • 📶 ISO 100"
+    },
+    { 
+      src: '7p.jpg', 
+      caption: "Les ruelles d'Oran",
+      description: "Une immersion dans l'âme authentique d'Oran à travers ses ruelles typiques. Cette photo a été prise en marchant sans destination précise, laissant le hasard guider mon objectif. Les jeux d'ombre et de lumière créent une atmosphère presque théâtrale, révélant la poésie du quotidien oranais. J'ai été attiré par les couleurs vibrantes des portes et les textures des murs décrépis qui racontent l'histoire de la ville. La présence du chat ajoute une touche de vie et de spontanéité à la scène. J'ai utilisé une ouverture moyenne pour garder une netteté sur l'ensemble de la ruelle tout en créant un léger flou d'arrière-plan. Cette image capture un moment de tranquillité dans l'animation habituelle de la ville, comme une respiration entre deux rues animées. Le cadrage serré guide le regard le long de la ruelle, invitant à l'exploration et à la découverte.",
+      technical: "📸 Fujifilm X-T4 • 🎯 50mm • ⚡ f/2.8 • ⏱ 1/125s • 📶 ISO 400"
+    },
+    { 
+      src: '4p.jpg', 
+      caption: 'Vue assez speciale',
+      description: "Une perspective unique sur la baie d'Oran, capturée depuis un point de vue peu conventionnel. J'ai découvert cet angle en explorant les toits de la ville, cherchant à montrer Oran sous un jour différent. La composition joue avec les lignes architecturales pour guider le regard vers l'horizon marin. L'utilisation d'un téléobjectif m'a permis de compresser la perspective et de créer cette superposition de plans qui donne tant de profondeur à l'image. La lumière rasante de fin d'après-midi accentue les reliefs et les textures, révélant des détails habituellement invisibles. J'ai attendu que quelques nuages viennent compléter la composition sans obstruer la vue sur la mer. Cette photo représente pour moi la dualité d'Oran : une ville dense et minérale qui s'ouvre sur l'immensité de la Méditerranée. Le cadrage décentré crée une tension visuelle qui rend l'image dynamique et intrigante.",
+      technical: "📸 Nikon Z6 • 🎯 85mm • ⚡ f/11 • ⏱ 1/200s • 📶 ISO 160"
+    },
+    { 
+      src: 'oldcarsoran.jpeg', 
+      caption: 'old car in the city',
+      description: "Cette automobile vintage garée dans une rue d'Oran raconte à elle seule l'histoire de la ville. J'ai attendu que la lumière latérale du début d'après-midi mette en valeur les courbes de la carrosserie et les textures rouillées. La voiture semble faire partie du décor, comme un élément naturel du paysage urbain. Le contraste entre la vieille voiture et l'environnement urbain moderne crée un dialogue entre les époques. J'ai utilisé une faible profondeur de champ pour isoler le sujet et créer une séparation nette avec l'arrière-plan. Les couleurs chaudes de la carrosserie répondent aux teintes ocre des bâtiments, créant une harmonie chromatique naturelle. Cette photo a été prise rapidement, alors que la lumière était parfaite, capturant l'essence d'un moment éphémère où passé et présent coexistent dans les rues d'Oran. La composition inclut suffisamment d'éléments contextuels pour situer la scène tout en maintenant la voiture comme point focal principal.",
+      technical: "📸 Canon 5D Mark IV • 🎯 35mm • ⚡ f/4 • ⏱ 1/160s • 📶 ISO 320"
+    },
+    { 
+      src: 'tramway.jpeg', 
+      caption: 'tramway in oran',
+      description: "Le tramway moderne traversant le cœur historique d'Oran. J'ai choisi un temps de pose légèrement long pour créer un effet de mouvement, contrastant avec la stabilité des bâtiments anciens. Cette image symbolise la rencontre entre tradition et modernité qui caractérise la ville aujourd'hui. La technique du filé permet de suggérer la vitesse et l'énergie du tramway tout en maintenant la netteté sur l'architecture environnante. J'ai utilisé un trépied pour assurer la stabilité nécessaire pendant la pose longue. Le moment a été choisi pour capturer le tramway dans une courbe, ce qui renforce la sensation de mouvement et d'élégance. Les reflets sur la carrosserie ajoutent une dimension graphique à l'image, tandis que la présence de piétons à l'arrière-plan donne une échelle humaine à la scène. Cette photo représente le dynamisme d'Oran, une ville qui évolue tout en préservant son patrimoine, où les transports modernes sillonnent des quartiers chargés d'histoire.",
+      technical: "📸 Sony A6400 • 🎯 30mm • ⚡ f/16 • ⏱ 1/30s • 📶 ISO 100"
+    },
+    { 
+      src: 'random.jpeg', 
+      caption: 'coffeshops',
+      description: "L'ambiance chaleureuse d'un café typique oranais, où les habitants se retrouvent pour discuter et prendre un verre. J'ai utilisé une ouverture large pour isoler le sujet principal tout en conservant l'atmosphère du lieu. La lumière naturelle filtrant à travers la vitre crée des reflets et des ombres qui ajoutent de la profondeur à la scène. J'ai choisi un point de vue en contre-plongée pour donner de l'importance au serveur et créer une composition dynamique. Les couleurs chaudes de l'intérieur contrastent avec la lumière bleutée de l'extérieur, renforçant la sensation de convivialité et d'intimité. Le flou d'arrière-plan permet de concentrer l'attention sur l'action principale tout en conservant suffisamment de détails pour contextualiser la scène. Cette image capture un moment de vie authentique, où le rituel du café devient un prétexte à la rencontre et à l'échange. La composition inclut des éléments typiques de la culture café oranaise, des tables en zinc aux verres caractéristiques, créant ainsi un portrait fidèle de ces lieux de sociabilité incontournables.",
+      technical: "📸 Fujifilm X100V • 🎯 23mm • ⚡ f/2 • ⏱ 1/60s • 📶 ISO 800"
+    }
+  ];
+
+  const gallery = document.getElementById('gallery');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxTitle = document.getElementById('lightboxTitle');
+  const lightboxDescription = document.getElementById('lightboxDescription');
+  const lightboxTechnical = document.getElementById('lightboxTechnical');
+  const closeBtn = document.getElementById('closeBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  let currentImageIndex = 0;
+
+  // Fonction pour créer les cartes
+  function createGallery() {
+    images.forEach((img, i) => {
+      const card = document.createElement('div');
+      card.className = 'photo-card';
+      card.addEventListener('click', () => openLightbox(i));
+
+      const imageContainer = document.createElement('div');
+      imageContainer.className = 'image-container';
+
+      const imageElem = document.createElement('img');
+      imageElem.src = img.src;
+      imageElem.alt = img.caption;
+      imageElem.loading = 'lazy';
+
+      const caption = document.createElement('div');
+      caption.className = 'caption';
+      caption.innerText = img.caption;
+
+      imageContainer.appendChild(imageElem);
+      card.appendChild(imageContainer);
+      card.appendChild(caption);
+      gallery.appendChild(card);
+
+      // Animation GSAP
+      gsap.from(card, {
+        opacity: 0,
+        y: 50,
+        scale: 0.9,
+        duration: 0.8,
+        delay: i * 0.1,
+        ease: "back.out(1.2)",
+        overwrite: "auto"
+      });
+    });
+  }
+
+  // Fonction pour ouvrir la lightbox
+  function openLightbox(index) {
+    currentImageIndex = index;
+    updateLightbox();
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Fonction pour fermer la lightbox
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = 'auto';
+  }
+
+  // Fonction pour mettre à jour le contenu de la lightbox
+  function updateLightbox() {
+    const image = images[currentImageIndex];
+    lightboxImg.src = image.src;
+    lightboxImg.alt = image.caption;
+    lightboxTitle.textContent = image.caption;
+    lightboxDescription.textContent = image.description;
+    lightboxTechnical.textContent = image.technical;
+  }
+
+  // Fonction pour image suivante
+  function nextImage() {
+    currentImageIndex = (currentImageIndex + 1) % images.length;
+    updateLightbox();
+  }
+
+  // Fonction pour image précédente
+  function prevImage() {
+    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+    updateLightbox();
+  }
+
+  // Événements
+  closeBtn.addEventListener('click', closeLightbox);
+  nextBtn.addEventListener('click', nextImage);
+  prevBtn.addEventListener('click', prevImage);
+
+  // Fermer en cliquant en dehors de l'image
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) {
+      closeLightbox();
+    }
+  });
+
+  // Navigation au clavier
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    
+    switch(e.key) {
+      case 'Escape':
+        closeLightbox();
+        break;
+      case 'ArrowLeft':
+        prevImage();
+        break;
+      case 'ArrowRight':
+        nextImage();
+        break;
+    }
+  });
+
+  // Initialisation
+  createGallery();
+</script>
+
+</body>
+</html>
